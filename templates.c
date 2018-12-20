@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 14:44:44 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/19 15:25:39 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/20 13:20:13 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct		s_base_ttr
 	unsigned char	height;
 	unsigned char	width;
 	char			*template;
-	unsigned char	quantity;
 	s_base_ttr		*next;
 }					t_base_ttr;
 

@@ -6,60 +6,74 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/19 18:09:51 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/20 13:52:01 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-t_ttr	*ft_create_ttr(char *template)
+t_base_ttr	*ft_create_base_ttr(char *template, char h, char w)
 {
-	t_ttr	*new;
+	t_base_ttr	*new;
 
-	new = (t_ttr *)malloc(sizeof(t_ttr));
-	ISMALLOC_LL(new);
-	if (template == NULL)
-		return (NULL);
-
-	new->template = ft_strdup(template);
-	ISMALLOC_LL(new->template);
+	new = (t_base_ttr *)malloc(sizeof(t_base_ttr));
+	ISMALLOC_CHR(new);
+	ISMALLOC_CHR(template);
+	new->template = template;
+	new->height = h - 48;
+	new->width = w - 48;
 	new->next = NULL;
 	return (new);
 }
 
-t_base_ttr	*ft_template_ll(char *templates)
+t_base_ttr		*ft_template_maker(char *templates, t_base_ttr **head, char *tab)
 {
-	t_base_ttr		*new;
+	t_base_ttr		*node;
 	unsigned char	i;
+	unsigned char	hw;
+	unsigned char	len;
 
-	i = 0;
-	new = (t_base_ttr *)malloc(sizeof(t_base_ttr));
-	ISMALLOC_LL(new);
-	if (templates == NULL)
-		return (NULL);
-
-	while (templates[i] != '\0')
+	i = -1;
+	hw = 0;
+	ISMALLOC_CHR(templates);
+	node = ft_create_base_ttr("####", '1', '4');
+	*head = node;
+	while (templates[++i] != '\0')
 	{
-		/*	НАПИСАТЬ ФУНКЦИЮ, КОТОРАЯ БУДЕТ СОЗДАВАТЬ ЛИСТ
-		ИЗ 19 СТРУКТУР, В КАЖДОЙ ИЗ КОТОРЫХ БУДЕТ TEMPLATE,
-		ВЫСОТА И ШИРИНА ШАБЛОНА	*/
-		++i;
+		len = 0;
+		while (templates[i] != '|' && templates[i] != '\0')
+		{
+			++len;
+			++i;
+		}
+		node->next = ft_create_base_ttr(ft_strsubi(templates, i - len, i - 1),\
+tab[hw], tab[hw + 1]);
+		ISMALLOC_CHR(node);
+		node = node->next;
+		hw += 2;
 	}
-	new->template = ft_strdup(templates);
-	ISMALLOC_LL(new->template);
-	new->next = NULL;
-	return (new);
+	return (*head);
 }
 
 int		main()
 {
-	t_base_ttr	*ptr;
-	char		*arr;
+	t_base_ttr	*head;
+	char		*templates;
+	char		*tab;
 
-	arr = ft_strdup("####|#\n#\n#\n#|##\n##|##.\n.##");
-	ptr = ft_template_ll(arr);
-	printf("%s\n", ptr->template);
+	tab = ft_strdup("412223233232323232322323232323233232");
 
+	templates = ft_strdup("#\n#\n#\n#|##\n##|##.\n.##|.##\n##.|#.\n##\n.#|\
+.#\n##\n#.|##\n#.\n#.|#.\n#.\n##|##\n.#\n.#|.#\n.#\n##|###\n#..|\
+###\n..#|#..\n###|..#\n###|.#.\n###|###\n.#.|#.\n##\n#.|.#\n##\n.#");
 
+	ft_template_maker(templates, &head, tab);
+	while (head != NULL)
+	{
+		printf("%s", head->template);
+		printf("%d", head->width);
+		printf("%d\n\n", head->height);
+		head = head->next;
+	}
 	return (0);
 }
