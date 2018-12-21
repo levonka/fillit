@@ -3,35 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+         #
+#    By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/11/20 12:12:25 by agottlie          #+#    #+#              #
-#    Updated: 2018/12/06 13:56:00 by agottlie         ###   ########.fr        #
+#    Created: 2018/11/21 08:54:37 by yharwyn-          #+#    #+#              #
+#    Updated: 2018/12/17 15:17:56 by yharwyn-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-FLAGS = -Wall -Wextra -Werror
+SRCS =  ft_*.c get_next_line.c
 
-SRC =	ft_*.c
+INCLUDES = libft.h
 
-OBJ = 	ft_*.o
+OBJECTS = ft_*.o get_next_line.o
 
-INC = libft.h
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME):
-	gcc $(FLAGS) -c $(SRC) -I $(INC)
-	ar rc $(NAME) $(OBJ)
+$(NAME): 
+	gcc $(FLAGS) -c $(SRCS) -I $(INCLUDES)
+	ar rc  $(NAME) $(OBJECTS)
 	ranlib $(NAME)
 
 clean:
-	/bin/rm -f $(OBJ)
+	/bin/rm -f *.o
 
 fclean: clean
+	/bin/rm -f *.o
 	/bin/rm -f $(NAME)
-	/bin/rm -f a.out
 
-re: fclean all
+re: fclean $(NAME)

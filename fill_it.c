@@ -6,128 +6,13 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/20 17:20:26 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/21 10:01:00 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 char	**g_field;
-
-int		find_sqr(int n)
-{
-	int x = 1;
-	int decreased = 0;
-	int nx;
-
-	while (n) {
-		int nx = (x + n / x) >> 1;
-		if (x == nx || (nx > x && decreased))	break;
-		decreased = nx < x;
-		x = nx;
-	}
-	return (x * x != n) ? ++x : x;
-}
-
-int		find_quantity_ttr(int fd)
-{
-	char *line;
-	int ttr;
-
-	ttr = 0;
-	while (get_next_line(fd, &line))
-		ft_strlen(line) <= 1 ? ttr += 1 : ttr;
-	return (ttr + 1);
-}
-
-int		valid_checker(char *ttr)
-{
-	int mem;
-
-	mem = 0;
-	if (ttr[19] != '\n' || ttr[0] == '\n')
-		return (0);
-	while (*ttr)
-	{
-		if (*ttr != '.' && *ttr != '#' && *ttr != '\n')
-			return (0);
-		(*ttr == '#') ? mem++ : mem;
-		if (mem > 4)
-			return (0);
-		ttr++;
-	}
-	if (mem < 4)
-		return (0);
-	return (1);
-}
-
-char	*ttr_trim(char *ttr)
-{
-	char *ttr_true;
-	int i;
-	int k;
-	int count;
-
-	i = 0;
-	k = 0;
-	count = 0;
-	ttr_true = ft_strnew(16);
-
-	while (ttr[i] != '\0')
-	{
-		if (i == 0 || ttr[i - 1] == '\n')
-		{
-			while(ttr[i] == '.' && ttr[i] != '\n')
-			{
-				count++;
-				i++;
-				if (ttr[i] == '#')
-					{
-						i = i - count;
-						break ;
-					}
-			}
-		}
-		count = 0;
-		ttr_true[k] = ttr[i];
-		k++;
-		i++;
-	}
-	ttr_true = ft_strtrim(ttr_true);
-	return (ttr_true);
-}
-
-char	*adjust_form(char *ttr)
-{
-	int i;
-	int k;
-	char *ttr_true;
-	char *ttr_fix;
-
-	ttr_fix = ft_strnew(16);
-	i = 0;
-	k = 0;
-	while (ttr[i] != '\0')
-	{
-		if (i < 5 && ttr[i] == '.' && ttr[i + 5] == '.' && ttr[i + 10] == '.' && ttr[i + 15] == '.')
-		{
-			ttr[i] = '!';
-			ttr[i + 5] = '!';
-			ttr[i + 10] = '!';
-			ttr[i + 15] = '!';
-			i++;
-		}
-		else 
-		{
-			while (ttr[i] == '!')
-				i++;
-			ttr_fix[k] = ttr[i];
-			k++;
-			i++;
-		}
-	}
-	return (ttr_trim(ttr_fix));
-}
 
 int		check_valid_template(char *ttr, t_ttr *head, t_ttr **ttr_list)
 {
@@ -138,7 +23,7 @@ int		check_valid_template(char *ttr, t_ttr *head, t_ttr **ttr_list)
 	{
 		if (ft_strcmp(head->template, ttr) == 0)
 		{
-			copy_ttr_list(head, ttr_list);
+			// copy_ttr_list(head, ttr_list);
 			return (1);
 		}
 		head = head->next;
@@ -162,12 +47,11 @@ char	grab_ttr_line(int fd, t_ttr *tmpl_lst, t_ttr **ttr_lst)
 		ft_strncpy(ttr_grab, buff, 21);
 		if (!valid_checker(ttr_grab))
 			return (-1);	
-		ttr_arr = adjust_form(ttr_grab);
+		ttr_arr = adjust_ttr_form(ttr_grab);
 		if (check_valid_template(ttr_arr, tmpl_lst, ttr_lst) == -1)
 			return (-1);
-
 		
-		
+		printf("%s\n", ttr_arr);
 		ft_bzero(ttr_grab, 21);
 		break ;
 	}
@@ -183,7 +67,7 @@ void	create_field(int ttr, int exp)
 	int j;
 
 	i = -1;
-	x = find_sqr(ttr * 4);
+	x = find_sqr_ttr(ttr * 4);
 	printf("x is %d\n", x);
 
 	exp != 0 ? (x += exp) : x;
@@ -248,31 +132,3 @@ int		main(void)
 
 	return (0);
 }
-
-
-
-
-
-
-// int		main()
-// {
-// 	t_base_ttr	*head;
-// 	char		*templates;
-// 	char		*tab;
-
-// 	tab = ft_strdup("412223233232323232322323232323233232");
-
-// 	templates = ft_strdup("#\n#\n#\n#|##\n##|##.\n.##|.##\n##.|#.\n##\n.#|\
-// .#\n##\n#.|##\n#.\n#.|#.\n#.\n##|##\n.#\n.#|.#\n.#\n##|###\n#..|\
-// ###\n..#|#..\n###|..#\n###|.#.\n###|###\n.#.|#.\n##\n#.|.#\n##\n.#");
-
-// 	ft_template_maker(templates, &head, tab);
-// 	while (head != NULL)
-// 	{
-// 		printf("%s", head->template);
-// 		printf("%d", head->width);
-// 		printf("%d\n\n", head->height);
-// 		head = head->next;
-// 	}
-// 	return (0);
-// }

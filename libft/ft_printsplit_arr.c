@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_printsplit_arr.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 10:22:01 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/01 15:41:33 by yharwyn-         ###   ########.fr       */
+/*   Created: 2018/12/04 10:09:11 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/17 09:58:00 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	ft_printsplit_arr(char **str)
 {
-	unsigned char	*str;
-	size_t			i;
-	unsigned char	target;
+	int i;
 
 	i = 0;
-	str = (unsigned char *)s;
-	target = (unsigned char)c;
-	while (i < n)
-	{
-		if (str[i] == target)
-			return (&str[i]);
-		i++;
-	}
-	return (NULL);
+	while (str[i] != '\0')
+		ft_putendl(str[i++]);
 }

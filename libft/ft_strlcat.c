@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 13:04:12 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/05 16:53:59 by agottlie         ###   ########.fr       */
+/*   Created: 2018/11/24 11:07:17 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/03 12:39:54 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,29 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	i;
-	int		g;
-	size_t	orig_buf_size;
+	const char	*s;
+	char		*d;
+	size_t		len;
+	size_t		dst_len;
 
-	g = -1;
-	i = ft_strlen(dst) - 1;
-	orig_buf_size = ft_strlen(dst);
-	if (size == 0)
-		return (ft_strlen(src));
-	if (size > ft_strlen(dst))
+	d = dst;
+	s = src;
+	len = size;
+	while (len-- != 0 && *d != '\0')
+		d++;
+	dst_len = d - dst;
+	len = size - dst_len;
+	if (len == 0)
+		return (dst_len + ft_strlen(s));
+	while (*s != '\0')
 	{
-		while (++i < (size - 1))
-			dst[i] = src[++g];
-		dst[i] = '\0';
-		return (orig_buf_size + ft_strlen(src));
+		if (len != 1)
+		{
+			*d++ = *s;
+			len--;
+		}
+		s++;
 	}
-	return (size + ft_strlen(src));
+	*d = '\0';
+	return (dst_len + (s - src));
 }

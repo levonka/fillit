@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   fun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 10:22:01 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/01 15:41:33 by yharwyn-         ###   ########.fr       */
+/*   Created: 2018/12/21 08:41:30 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/21 08:54:37 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fillit.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int		find_sqr_ttr(int n)
 {
-	unsigned char	*str;
-	size_t			i;
-	unsigned char	target;
+	int x = 1;
+	int decreased = 0;
+	int nx;
 
-	i = 0;
-	str = (unsigned char *)s;
-	target = (unsigned char)c;
-	while (i < n)
-	{
-		if (str[i] == target)
-			return (&str[i]);
-		i++;
+	while (n) {
+		int nx = (x + n / x) >> 1;
+		if (x == nx || (nx > x && decreased))	break;
+		decreased = nx < x;
+		x = nx;
 	}
-	return (NULL);
+	return (x * x != n) ? ++x : x;
+}
+
+int		find_quantity_ttr(int fd)
+{
+	char *line;
+	int ttr;
+
+	ttr = 0;
+	while (get_next_line(fd, &line))
+		ft_strlen(line) <= 1 ? ttr += 1 : ttr;
+	return (ttr + 1);
 }

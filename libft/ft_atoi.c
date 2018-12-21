@@ -3,41 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 11:06:22 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/06 17:28:34 by agottlie         ###   ########.fr       */
+/*   Created: 2018/11/25 13:06:50 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/03 15:31:35 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int					i;
-	unsigned long long	res;
-	int					sign;
+	long int				i;
+	unsigned long long int	nb;
+	int						sign;
 
-	i = 0;
-	res = 0;
+	nb = 0;
 	sign = 1;
-	if (*str == '\0')
-		return (0);
-	while (str[i] == ' ' || str[i] == '\v' || str[i] == '\n' || \
-		str[i] == '\f' || str[i] == '\t' || str[i] == '\r')
-		++i;
-	(str[i] == '-') ? sign *= -1 : sign;
-	if (str[i] == '-' || str[i] == '+')
+	i = 0;
+	while ((str[i] == '\n') || (str[i] == '\t') || (str[i] == '\v') ||
+			(str[i] == ' ') || (str[i] == '\f') || (str[i] == '\r'))
 		i++;
-	while (str[i] >= '0' && str[i] <= '9')
+	(str[i] == '-') ? sign = sign * (-1) : sign * sign;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] && (str[i] >= '0') && (str[i] <= '9'))
+		nb = nb * 10 + str[i++] - '0';
+	if (nb > 9223372036854775807)
 	{
-		res = (res * 10) + str[i] - 48;
-		++i;
+		if (sign > 0)
+			return (-1);
+		else
+			return (0);
 	}
-	if (res > 9223372036854775807)
-	{
-		return (sign < 0) ? 0 : -1;
-	}
-	return ((int)res * sign);
+	return ((int)nb * sign);
 }

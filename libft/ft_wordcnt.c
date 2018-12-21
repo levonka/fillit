@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_wordcnt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 10:22:01 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/01 15:41:33 by yharwyn-         ###   ########.fr       */
+/*   Created: 2018/12/03 13:28:21 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/05 17:26:35 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int		ft_wordcnt(char *str)
 {
-	unsigned char	*str;
-	size_t			i;
-	unsigned char	target;
+	int		wc;
+	int		i;
 
-	i = 0;
-	str = (unsigned char *)s;
-	target = (unsigned char)c;
-	while (i < n)
+	if (*str)
 	{
-		if (str[i] == target)
-			return (&str[i]);
-		i++;
+		i = 0;
+		wc = 1;
+		if (ft_checkws(str[i]))
+			while (ft_checkws(str[i]))
+				i++;
+		while (str[i] != '\0')
+		{
+			if (ft_checkws(str[i]))
+			{
+				while (ft_checkws(str[i]))
+					i++;
+				wc++;
+				str[i] == '\0' ? wc-- : wc;
+			}
+			i++;
+		}
+		return (wc);
 	}
-	return (NULL);
+	return (0);
 }

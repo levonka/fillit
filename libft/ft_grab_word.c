@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_grab_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 13:58:45 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/20 08:45:49 by yharwyn-         ###   ########.fr       */
+/*   Created: 2018/12/03 10:47:48 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/05 17:28:12 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+char	*ft_grab_word(char *str, int pos)
 {
-	size_t	i;
 	int		start;
-	int		end;
-	char	*fresh;
+	int		finish;
+	int		i;
+	char	*word;
 
-	if (s)
+	start = -1;
+	finish = -1;
+	i = 0;
+	while (*str && (finish == -1 || start == -1))
 	{
-		i = 0;
-		while (ft_checkws(s[i]))
+		if (start == -1)
+		{
+			ft_checkws(str[pos + i]) ? start = pos + i + 1 : start;
+			(i + pos <= 0) ? start = 0 : i--;
+			(start >= 0) ? i = 0 : i;
+		}
+		else
+		{
+			ft_checkws(str[pos + i]) ? finish = pos + i - 1 : finish;
 			i++;
-		if (i == ft_strlen(s))
-			return (ft_strnew(0));
-		start = i;
-		i = ft_strlen(s) - 1;
-		while (ft_checkws(s[i]))
-			i--;
-		end = i;
-		if (!(fresh = ft_strnew(end - start + 1)))
-			return (0);
-		i = 0;
-		ft_strncpy(fresh, &s[start], (end - start + 1));
-		return (fresh);
+		}
 	}
-	return (0);
+	word = ft_strsub(str, start, (finish - start + 1));
+	return (word);
 }
