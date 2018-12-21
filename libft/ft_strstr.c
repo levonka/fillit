@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 13:45:03 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/05 16:55:32 by agottlie         ###   ########.fr       */
+/*   Created: 2018/11/24 16:03:16 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/11/25 16:50:48 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 char	*ft_strstr(const char *haystack, const char *needle)
 {
-	char	*src;
-	char	*search;
-	size_t	g;
-	size_t	i;
+	char	*largestr;
+	int		i;
+	int		j;
+	int		len;
 
-	src = (char *)haystack;
-	search = (char *)needle;
-	i = -1;
-	g = 0;
-	if (ft_strlen(search) == 0)
-		return (src);
-	while (src[++i] != '\0')
-		if (src[i] == search[g])
+	i = 0;
+	j = 0;
+	largestr = (char *)haystack;
+	len = ft_strlen(needle);
+	if (len == 0)
+		return (largestr);
+	while (largestr[i] != '\0')
+	{
+		if (largestr[i] == needle[j])
 		{
-			++g;
-			if (search[g] == '\0')
-				return (src + (i - g) + 1);
+			while (largestr[i++] == needle[j++])
+				if (j == len)
+					return (&largestr[i - j]);
+			i = i - j;
+			j = 0;
 		}
-		else
-		{
-			i = i - g;
-			g = 0;
-		}
-	return (NULL);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 11:19:52 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 09:54:42 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/20 15:07:06 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # define ISMALLOC_I(s) if ((s) == NULL) return (-1)
 # define ISMALLOC_CHR(s) if ((s) == NULL) return (NULL)
 
+typedef struct			s_base_ttr
+{
+	unsigned char		height;
+	unsigned char		width;
+	char				*template;
+	struct s_base_ttr	*next;
+}						t_base_ttr;
 
 typedef struct			s_ttr
 {
@@ -29,14 +36,7 @@ typedef struct			s_ttr
 }						t_ttr;
 
 t_ttr					*ft_create_ttr(char *template, char h, char w);
-t_ttr					*ft_template_maker(char *templates, t_ttr **head, char *tab);
-t_ttr					*copy_ttr_list(t_ttr *head, t_ttr **ttr_lst);
-int						find_sqr_ttr(int n);
-int						find_quantity_ttr(int fd);
-int						valid_checker(char *ttr);
-char					*ttr_trim(char *ttr, int i, int k, int count);
-char					*adjust_ttr_form(char *ttr);
-char					*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k);
+t_base_ttr				*ft_template_maker(char *templates, t_base_ttr **head, char *tab);
 
 
 #endif

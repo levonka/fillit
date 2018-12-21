@@ -3,72 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/01 15:03:13 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/05 16:51:23 by agottlie         ###   ########.fr       */
+/*   Created: 2018/12/01 09:05:42 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/03 15:52:25 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_solver(int n)
+static int	ft_itoa_counter(int nb)
 {
-	char	*arr;
+	int		count;
 
-	if (n == -2147483648)
+	count = 0;
+	if (nb == 0)
+		return (1);
+	while (nb)
 	{
-		arr = (char *)malloc(11);
-		return (ft_strcpy(arr, "-2147483648"));
+		nb = nb / 10;
+		count++;
 	}
-	else if (n == 0)
-	{
-		arr = (char *)malloc(2);
-		return (ft_strcpy(arr, "0"));
-	}
-	return (NULL);
+	return (count);
 }
 
-static int	ft_delit(int nbr)
+static char	*ft_itoa_write(int len, char *str, int i, int n)
 {
-	int		i;
-
-	i = 0;
-	if (nbr == 0)
-		return (1);
-	else if (nbr < 0)
+	while (len > 0)
 	{
-		++i;
-		nbr *= -1;
+		str[i--] = (n % 10) + '0';
+		n /= 10;
+		len--;
 	}
-	while (nbr > 0)
-	{
-		++i;
-		nbr /= 10;
-	}
-	return (i);
+	return (str);
 }
 
 char		*ft_itoa(int n)
 {
-	char	*new_arr;
 	int		len;
+	int		i;
+	char	*str;
 
-	if (n == -2147483648 || n == 0)
-		return (ft_solver(n));
-	len = ft_delit(n);
-	if ((new_arr = (char *)malloc(len + 1)) == NULL)
-		return (NULL);
-	new_arr[len] = '\0';
+	len = ft_itoa_counter(n);
+	if (n >= 0)
+	{
+		if ((str = ft_strnew(len)) == NULL)
+			return (NULL);
+		i = len - 1;
+	}
 	if (n < 0)
 	{
-		new_arr[0] = '-';
+		if ((str = ft_strnew(len + 1)) == NULL)
+			return (NULL);
+		if (n == -2147483648)
+			return (ft_strcpy(str, "-2147483648"));
+		str[0] = '-';
 		n *= -1;
+		i = len;
 	}
-	while (n > 0)
-	{
-		new_arr[--len] = n % 10 + '0';
-		n /= 10;
-	}
-	return (new_arr);
+	str = ft_itoa_write(len, str, i, n);
+	return (str);
 }

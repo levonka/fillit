@@ -3,24 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/24 18:14:25 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/03 14:27:35 by agottlie         ###   ########.fr       */
+/*   Created: 2018/11/20 15:09:05 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/01 16:58:29 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned char	*new_arr1;
-	unsigned char	*new_arr2;
+#include "libft.h"
 
-	new_arr1 = (unsigned char *)s1;
-	new_arr2 = (unsigned char *)s2;
-	while (*new_arr1 == *new_arr2 && *new_arr1 != '\0')
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	unsigned char	*src;
+	unsigned char	*dst;
+	int				i;
+
+	src = (unsigned char *)s1;
+	dst = (unsigned char *)s2;
+	i = 0;
+	while (src[i] != '\0' || dst[i] != '\0')
 	{
-		++new_arr1;
-		++new_arr2;
+		if (src[i] != dst[i])
+			return (src[i] - dst[i]);
+		i++;
 	}
-	return (*new_arr1 - *new_arr2);
+	return (0);
 }

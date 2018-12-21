@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 14:13:52 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/06 16:34:11 by agottlie         ###   ########.fr       */
+/*   Created: 2018/11/22 16:04:20 by yharwyn-          #+#    #+#             */
+/*   Updated: 2018/12/03 16:01:26 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
+	unsigned char	*dst_new;
+	unsigned char	*src_new;
 	size_t			i;
-	unsigned char	*new_arr;
-	unsigned char	*old_arr;
 
+	dst_new = (unsigned char *)dst;
+	src_new = (unsigned char *)src;
 	i = -1;
-	new_arr = (unsigned char *)dst;
-	old_arr = (unsigned char *)src;
-	if (new_arr > old_arr)
+	if (src_new < dst_new)
 		while (len-- > 0)
-			new_arr[len] = old_arr[len];
+			dst_new[len] = src_new[len];
 	else
 		while (++i < len)
-			new_arr[i] = old_arr[i];
-	return (new_arr);
+			dst_new[i] = src_new[i];
+	return (dst_new);
 }
