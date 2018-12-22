@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:42:24 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 10:00:22 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/21 14:44:25 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 	int		count;
 
 	while (ttr[i] != '\0')
-	{
 		if (i < 5 && ttr[i] == '.' && ttr[i + 5] == '.'
 		&& ttr[i + 10] == '.' && ttr[i + 15] == '.')
 		{
@@ -83,7 +82,6 @@ char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 				i++;
 			ttr_fix[k++] = ttr[i++];
 		}
-	}
 	i = 0;
 	k = 0;
 	count = 0;
