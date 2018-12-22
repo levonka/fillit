@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:41:30 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 08:54:37 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/21 15:17:21 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		find_sqr_ttr(int n)
 	int nx;
 
 	while (n) {
-		int nx = (x + n / x) >> 1;
+		nx = (x + n / x) >> 1;
 		if (x == nx || (nx > x && decreased))	break;
 		decreased = nx < x;
 		x = nx;

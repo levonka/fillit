@@ -6,41 +6,39 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 10:01:00 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/22 10:18:36 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 char	**g_field;
+t_ttr	*root;
 
-int		check_valid_template(char *ttr, t_ttr *head, t_ttr **ttr_list)
+t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
 {
 	int i;
 
 	i = 0;
-	while (head != NULL)
+	while (tmpl != NULL)
 	{
-		if (ft_strcmp(head->template, ttr) == 0)
-		{
-			// copy_ttr_list(head, ttr_list);
-			return (1);
-		}
-		head = head->next;
+		if (ft_strcmp(tmpl->template, ttr) == 0)
+			return (tmpl);
+		tmpl = tmpl->next;
 	}
-	return (-1);
+	return (0);
 }
 
 
-char	grab_ttr_line(int fd, t_ttr *tmpl_lst, t_ttr **ttr_lst)
+char	grab_ttr_line(int fd, t_ttr *tmpl_lst)
 {
 	char *ttr_arr;
 	char *ttr_grab;
 	int n;
 	char buff[21];
+	t_ttr *ptr;
 
 	ttr_grab = ft_strnew(21);
-
 	while ((n = read(fd, buff, 21)))
 	{
 		buff[n] = '\0';
@@ -48,12 +46,11 @@ char	grab_ttr_line(int fd, t_ttr *tmpl_lst, t_ttr **ttr_lst)
 		if (!valid_checker(ttr_grab))
 			return (-1);	
 		ttr_arr = adjust_ttr_form(ttr_grab);
-		if (check_valid_template(ttr_arr, tmpl_lst, ttr_lst) == -1)
+		if (!(ptr = check_valid_template(ttr_arr, tmpl_lst)))
 			return (-1);
+		ttr_add_lst(&root, ptr);
 		
-		printf("%s\n", ttr_arr);
 		ft_bzero(ttr_grab, 21);
-		break ;
 	}
 	return (0);
 }
@@ -96,39 +93,30 @@ void	create_field(int ttr, int exp)
 int		main(void)
 {
 	int 		fd;
-	char 		*line;
-	char 		*figure;
-	int 		ttr;
 	t_ttr		*tmpl_lst;
 	char		*templates;
 	char		*tab;
-	t_ttr 		*ttr_lst;
 
 	tab = ft_strdup("412223233232323232322323232323233232");
 	templates = ft_strdup("#\n#\n#\n#|##\n##|##.\n.##|.##\n##.|#.\n##\n.#|\
 .#\n##\n#.|##\n#.\n#.|#.\n#.\n##|##\n.#\n.#|.#\n.#\n##|###\n#..|\
 ###\n..#|#..\n###|..#\n###|.#.\n###|###\n.#.|#.\n##\n#.|.#\n##\n.#");
 
-	ft_template_maker(templates, &tmpl_lst, tab);
+	tmpl_lst = ft_template_maker(templates, &tmpl_lst, tab);
 
-	ttr = 0;
 	fd = open("valid_ex02.fillit", O_RDONLY);
 
-	ttr_lst = malloc(sizeof(t_ttr));
-	ttr_lst = NULL;
 
-	grab_ttr_line(fd, tmpl_lst, &ttr_lst);
+	grab_ttr_line(fd, tmpl_lst);
 
-	// printf("templ %s\n", tmpl_lst->template);
-	// printf("height %d\n", tmpl_lst->height);
-	// printf("width %d\n", tmpl_lst->width);
-	// printf("letter %c\n", tmpl_lst->letter);
-
-	// printf("templ %s\n", ttr_lst->template);
-	// printf("height %d\n", ttr_lst->height);
-	// printf("width %d\n", ttr_lst->width);
-	// printf("letter %c\n", ttr_lst->letter);
-
+	while(root)
+	{
+		printf("%s\n", root->template);
+		printf("%d\n", root->height);
+		printf("%c\n", root->letter);
+		printf("%d\n\n", root->width);
+		root = root->next;
+	}
 
 	return (0);
 }
