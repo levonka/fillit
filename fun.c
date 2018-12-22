@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:41:30 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 15:17:21 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/22 10:31:47 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,4 @@ int		find_sqr_ttr(int n)
 		x = nx;
 	}
 	return (x * x != n) ? ++x : x;
-}
-
-int		find_quantity_ttr(int fd)
-{
-	char *line;
-	int ttr;
-
-	ttr = 0;
-	while (get_next_line(fd, &line))
-		ft_strlen(line) <= 1 ? ttr += 1 : ttr;
-	return (ttr + 1);
 }

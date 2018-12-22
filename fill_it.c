@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_it.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/22 10:18:36 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/22 11:34:20 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
 	return (0);
 }
 
-
 char	grab_ttr_line(int fd, t_ttr *tmpl_lst)
 {
 	char *ttr_arr;
@@ -44,18 +43,15 @@ char	grab_ttr_line(int fd, t_ttr *tmpl_lst)
 		buff[n] = '\0';
 		ft_strncpy(ttr_grab, buff, 21);
 		if (!valid_checker(ttr_grab))
-			return (-1);	
+			return (-1);
 		ttr_arr = adjust_ttr_form(ttr_grab);
 		if (!(ptr = check_valid_template(ttr_arr, tmpl_lst)))
 			return (-1);
 		ttr_add_lst(&root, ptr);
-		
 		ft_bzero(ttr_grab, 21);
 	}
 	return (0);
 }
-
-
 
 void	create_field(int ttr, int exp)
 {
@@ -90,7 +86,7 @@ void	create_field(int ttr, int exp)
 
 }
 
-int		main(void)
+int		ft_solver(char *file_name)
 {
 	int 		fd;
 	t_ttr		*tmpl_lst;
@@ -104,10 +100,11 @@ int		main(void)
 
 	tmpl_lst = ft_template_maker(templates, &tmpl_lst, tab);
 
-	fd = open("valid_ex02.fillit", O_RDONLY);
+	if ((fd = open(file_name, O_RDONLY)) == -1)
+		return (-1);
 
-
-	grab_ttr_line(fd, tmpl_lst);
+	if (grab_ttr_line(fd, tmpl_lst) == -1)
+		return (-1);
 
 	while(root)
 	{
@@ -117,6 +114,19 @@ int		main(void)
 		printf("%d\n\n", root->width);
 		root = root->next;
 	}
-
 	return (0);
+}
+
+int		main(int ac, char **av)
+{
+	if (ac == 2 && ft_solver(av[1]) == 0)
+		return (0);
+	else if (ac == 1)
+	{
+		ft_putstr("usage: ./fillit source_file\n");
+		return (64);
+	}
+	else
+		ft_putstr("error\n");
+	return (1);
 }
