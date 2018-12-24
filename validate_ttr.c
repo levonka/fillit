@@ -3,21 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   validate_ttr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:42:24 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 14:44:25 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:10:29 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
+{
+	int i;
+
+	i = 0;
+	while (tmpl != NULL)
+	{
+		if (ft_strcmp(tmpl->template, ttr) == 0)
+			return (tmpl);
+		tmpl = tmpl->next;
+	}
+	return (0);
+}
 
 int		valid_checker(char *ttr)
 {
 	int		mem;
 
 	mem = 0;
-	if (ttr[19] != '\n' || ttr[0] == '\n')
+	if (ttr[0] == '\n')
 		return (0);
 	while (*ttr)
 	{

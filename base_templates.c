@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   base_templates.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/21 15:12:43 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:09:50 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+int 	find_ttr_quantity(t_ttr **root)
+{
+	t_ttr *ptr;
+	int i;
+
+	if (root && *root)
+	{
+		i = 0;
+		ptr = *root;
+		while(ptr)
+		{
+			ptr = ptr->next;
+			i++;
+		}
+		// printf("%d\n", i);
+		return ((i < 27) ? i : -1);
+	}
+	else
+		return (-1);
+}
 
 t_ttr	*ft_create_ttr(char *template, char h, char w)
 {

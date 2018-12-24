@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 11:19:52 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/21 15:14:48 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:23:24 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char					*ttr_trim(char *ttr, int i, int k, int count);
 char					*adjust_ttr_form(char *ttr);
 char					*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k);
 void					ttr_add_lst(t_ttr **begin_list, t_ttr *ptr);
-
+t_ttr					*check_valid_template(char *ttr, t_ttr *tmpl);
+int					 	find_ttr_quantity(t_ttr **root);
 
 #endif
