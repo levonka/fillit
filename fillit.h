@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 11:19:52 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/24 16:23:24 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/25 12:21:39 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char					*adjust_ttr_form(char *ttr);
 char					*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k);
 void					ttr_add_lst(t_ttr **begin_list, t_ttr *ptr);
 t_ttr					*check_valid_template(char *ttr, t_ttr *tmpl);
-int					 	find_ttr_quantity(t_ttr **root);
+int					 	find_ttr_quantity(t_ttr *root);
 
 #endif
+

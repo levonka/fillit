@@ -6,27 +6,26 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/24 16:09:50 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/25 08:59:13 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int 	find_ttr_quantity(t_ttr **root)
+int 	find_ttr_quantity(t_ttr *root)
 {
 	t_ttr *ptr;
 	int i;
 
-	if (root && *root)
+	if (root)
 	{
 		i = 0;
-		ptr = *root;
+		ptr = root;
 		while(ptr)
 		{
 			ptr = ptr->next;
 			i++;
 		}
-		// printf("%d\n", i);
 		return ((i < 27) ? i : -1);
 	}
 	else

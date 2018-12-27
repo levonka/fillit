@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/24 18:04:41 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:47:26 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		ft_canplace_checker(t_ttr *figure, int x, int y, int mapsize)
 		while (i < figure->width)
 		{
 			if (j + y >= mapsize || i + x >= mapsize)
-				return (0);
+				return (-1);
 			if (ft_isalpha(g_field[j + y][i + x]) && figure->template[dot] != '.')
 				checker = 1;
 			++dot;
@@ -94,10 +94,10 @@ int		ft_canplace_checker(t_ttr *figure, int x, int y, int mapsize)
 		++dot;
 		++j;
 	}
-	return ((checker == 0) ? 1 : 0);
+	return ((checker == 0) ? 1 : -1);
 }
 
-int		ft_insertshape(t_ttr *figure, int x, int y, int mapsize)
+int		ft_insertfigure(t_ttr *figure, int x, int y)
 {
 	int		i;
 	int		j;
@@ -105,8 +105,8 @@ int		ft_insertshape(t_ttr *figure, int x, int y, int mapsize)
 
 	j = 0;
 	dot = 0;
-	if (ft_canplace_checker(figure, x, y, mapsize) == 0)
-		return (-1);
+	// if (ft_canplace_checker(figure, x, y, mapsize) == 0)
+	// 	return (-1);
 	while (j < figure->height)
 	{
 		i = 0;
@@ -123,60 +123,178 @@ int		ft_insertshape(t_ttr *figure, int x, int y, int mapsize)
 	return (1);
 }
 
-//	в ft_mapmaker лежит итеративный вариант функции
-void	ft_rec_mapmaker(t_ttr *node, int x, int y, int mapsize, int g)
+void	ft_clearfigure(t_ttr *figure, int x, int y)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (j < figure->height)
+	{
+		i = 0;
+		while (i < figure->width)
+		{
+			if (g_field[j + y][i + x] == figure->letter)
+				g_field[j + y][i + x] = '.';
+			++i;
+		}
+		++j;
+	}
+	// return ((checker == 0) ? 1 : 0);
+}
+
+//	в ft_mapmaker лежит итеративный вариант функции (если нет, смотри git log (commit - "it works, but not shaffle"))
+/*void	ft_rec_mapmaker(t_ttr *node, int x, int y, int mapsize, int g)
 {
 	if (node == NULL)
 		return ;
-	else if (ft_insertshape(node, x, y, mapsize) != -1)
-		return (ft_rec_mapmaker(node->next, 0, 0, mapsize, g));
+	else if (ft_insertfigure(node, x, y, mapsize) != -1)
+		ft_rec_mapmaker(node->next, 0, 0, mapsize, g);
 	else if (x == mapsize && y == mapsize)
 	{
-		create_field(find_ttr_quantity(&root), g);
-		return (ft_rec_mapmaker(root, 0, 0, ft_strlen(g_field[0]), g + 1));
+		create_field(find_ttr_quantity(root), g);
+		ft_rec_mapmaker(root, 0, 0, ft_strlen(g_field[0]), g + 1);
 	}
 	else if (x == mapsize)
-		return (ft_rec_mapmaker(node, 0, y + 1, mapsize, g));
+		ft_rec_mapmaker(node, 0, y + 1, mapsize, g);
 	else
-		return (ft_rec_mapmaker(node, x + 1, y, mapsize, g));
+		ft_rec_mapmaker(node, x + 1, y, mapsize, g);
+}*/
+
+int		ft_mapmaker_rec(t_ttr *node, int x, int y, int mapsize, int g)
+{
+	if (ft_canplace_checker(node, x, y, mapsize) != -1)	// проверить можно ли поставить фигуру
+	{
+		printf("beginning | x = %d, y = %d\n\n", x, y);
+		ft_insertfigure(node, x, y);					// если можно, то ставим фигуру
+		printf("this figure has placed\n%s\n\n", node->template);
+		ft_printsplit_arr(g_field);
+		if (node->next != NULL)
+		{
+			g = ft_mapmaker_rec(node->next, 0, 0, mapsize, g); // пробуем ставить следущую фигуру
+			printf("g = %d\n", g);
+			if (g == 1)
+			{
+				printf("everything is alright\n");
+				return (8);
+			}
+			else if (g == -1)
+			{
+				printf("g = %d | return 3\n", g);
+				return (3);
+			}
+			else if (g != 3)
+			{
+				printf("\ni can't place your figure\n%s\n\ngo to recursion\n\n", node->next->template);
+				printf("x = %d, y = %d\n\n", x, y);
+				ft_clearfigure(node, x, y);
+				g = ft_mapmaker_rec(node, x + 1, y, mapsize, g);
+			}
+		}
+		else
+		{
+			printf("every nodes has printed | return -1 | quit recursion\n");
+			return (-1);
+		}
+	}
+	else
+	{
+		if (x == mapsize && y == mapsize)				// если не получилось поставить фигуру
+		{
+			printf("x = mapsize && y == mapsize | return -1\n");						// удаляем фигуру
+			return (5);
+		}
+		else if (x == mapsize)							// условие для перемещения
+		{
+			y++;
+			x = 0;
+			printf("y++ x = 0 | y = %d\n| template\n%s\n\n", y, node->template);
+			g = ft_mapmaker_rec(node, x, y, mapsize, g);
+		}
+		else
+		{
+			x++;
+			printf("x++ x = %d\n", x);
+			g = ft_mapmaker_rec(node, x, y, mapsize, g);
+		}
+	}
+	// printf("return %d, node =\n%s\n", g, node->template);
+	printf("return %d\n", g);
+	return (g);
 }
 
-void	ft_mapmaker()
+// int		ft_mapmaker(t_ttr *node, int x, int y, int mapsize)
+// {
+	// x = 0;
+	// int x2 = 0;
+	// y = 0;
+	// int y2 = 0;
+	// t_ttr *sec_node;
+	// int		i = 0;
+
+	// while (node || sec_node)
+	// {
+	// 	ft_printsplit_arr(g_field);
+	// 	if (ft_canplace_checker(node, x, y, mapsize) != -1)	// проверить можно ли поставить фигуру
+	// 	{
+	// 		ft_insertfigure(node, x, y);					// если можно, то ставим фигуру
+	// 		sec_node = node;
+	// 		node = node->next;
+	// 		x2 = x;
+	// 		y2 = y;
+	// 	}
+	// 	else												// иначе
+	// 	{
+	// 		if (x == mapsize && y == mapsize)				// если не получилось поставить
+	// 		{
+	// 			printf("hello\n");
+	// 			ft_clearfigure(sec_node, x2, y2);			// удаляем фигуру
+	// 			x = 0;
+	// 			y = 0;
+	// 		}
+	// 		else if (x == mapsize)							// условие для перемещения
+	// 		{
+	// 			y++;
+	// 			x = 0;
+	// 		}
+	// 		else
+	// 			x++;
+	// 	}
+	// 	printf("x = %d\ny = %d\n", x, y);
+	// 	i++;
+	// }
+
+	// printf("\n");
+	// ft_insertfigure(node, 1, 2);
+	// ft_printsplit_arr(g_field);
+	// printf("\n");
+	// ft_clearfigure(node, x, y);
+	// ft_printsplit_arr(g_field);
+	// printf("\n");
+	// ft_insertfigure(node, x + 1, y);
+	// ft_printsplit_arr(g_field);
+	// return (0);
+// }
+
+int		ft_mapmaker_dispatcher()
 {
 	t_ttr	*node;
+	int		len;
 
 	node = root;
-	create_field(find_ttr_quantity(&root), 0);
-	ft_rec_mapmaker(node, 0, 0, ft_strlen(g_field[0]), 1);
-	// while (node)
-	// {
-	// 	if (ft_insertshape(node, x, y, mapsize) != -1)
-	// 	{
-	// 		printf("\n%s\n", node->template);
-	// 		node = node->next;
-	// 		x = 0;
-	// 		y = 0;
-	// 	}
-	// 	else if (x == mapsize && y == mapsize)
-	// 	{
-	// 		++g;
-	// 		create_field(find_ttr_quantity(&root), g);
-	// 		mapsize = ft_strlen(g_field[0]);
-	// 		x = 0;
-	// 		y = 0;
-	// 		node = root;
-	// 		printf("g%d\n", g);
-	// 	}
-	// 	else if (x == mapsize)
-	// 	{
-	// 		x = 0;
-	// 		y++;
-	// 	}
-	// 	else
-	// 		x++;
-	// 	// printf("i%d\n", i);
-	// 	++i;
-	// }
+	if ((len = find_ttr_quantity(root)) == -1)
+	{
+		printf("list is too big\n");
+		return (-1);
+	}
+	create_field(len, 0);
+	printf("\nTHE BEGINNING ===========================\n\n");
+	ft_mapmaker_rec(node, 0, 0, ft_strlen(g_field[0]), 0);
+	printf("\n");
+	ft_printsplit_arr(g_field);
+	printf("\n");
+	return (0);
 }
 
 int		ft_solver(char *file_name)
@@ -197,11 +315,12 @@ int		ft_solver(char *file_name)
 	if (grab_ttr_line(fd, tmpl_lst) == -1)
 		return (-1);
 
-	ft_mapmaker();
+	if (ft_mapmaker_dispatcher() == -1)
+		return (-1);
 
-	printf("\n");
-	ft_printsplit_arr(g_field);
-	printf("\n");
+	// printf("\n");
+	// ft_printsplit_arr(g_field);
+	// printf("\n");
 	return (0);
 }
 
@@ -216,5 +335,6 @@ int		main(int ac, char **av)
 	}
 	else
 		ft_putstr("error\n");
+// ft_solver("/Users/agottlie/projects/fillit/fillit_git/v2.fillit");
 	return (1);
 }
