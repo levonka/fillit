@@ -6,13 +6,13 @@
 #    By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/08 15:24:16 by agottlie          #+#    #+#              #
-#    Updated: 2018/12/22 14:08:08 by agottlie         ###   ########.fr        #
+#    Updated: 2018/12/28 12:33:35 by agottlie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit.a
 
-FLAGS = -Wall -Wextra
+FLAGS = -Wall -Wextra -Werror
 
 SRC = libft/ft_*.c
 
