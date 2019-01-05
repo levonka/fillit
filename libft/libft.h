@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 17:01:42 by yharwyn-          #+#    #+#             */
-/*   Updated: 2018/12/20 15:14:16 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/01/04 12:46:54 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char				*ft_grab_word(char *str, int pos);
 int					ft_wordcnt(char *str);
 void				ft_printsplit_arr(char **str);
 size_t				ft_lstlen(t_list **root);
-char				*ft_strsubi(char const *s, unsigned int start, unsigned int end);
+char				*ft_strsubi(char const *s, unsigned int start,
+unsigned int end);
 
 #endif

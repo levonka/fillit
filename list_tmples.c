@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   base_templates.c                                   :+:      :+:    :+:   */
+/*   list_tmples.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/25 08:59:13 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/05 11:12:21 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int 	find_ttr_quantity(t_ttr *root)
+//	ФРИШИТЬ НЕЧЕГО
+int		find_ttr_quantity(t_ttr *root)
 {
-	t_ttr *ptr;
-	int i;
+	t_ttr	*ptr;
+	int		i;
 
 	if (root)
 	{
 		i = 0;
 		ptr = root;
-		while(ptr)
+		while (ptr)
 		{
 			ptr = ptr->next;
 			i++;
@@ -32,20 +33,8 @@ int 	find_ttr_quantity(t_ttr *root)
 		return (-1);
 }
 
-t_ttr	*ft_create_ttr(char *template, char h, char w)
-{
-	t_ttr	*ptr;
-
-	if (!(ptr = malloc(sizeof(t_list))))
-		return (NULL);
-	ptr->template = template;
-	ptr->height = h - 48;
-	ptr->width = w - 48;
-	ptr->next = NULL;
-	return (ptr);
-}
-
-void	ttr_add_lst(t_ttr **root, t_ttr *ptr)
+//	ФРИШИТЬ НЕЧЕГО. 26 СТРОК В ФУНКЦИИ
+char	ttr_add_lst(t_ttr **root, t_ttr *ptr)
 {
 	t_ttr	*tmp;
 	int		i;
@@ -61,26 +50,47 @@ void	ttr_add_lst(t_ttr **root, t_ttr *ptr)
 		}
 		tmp->next = ft_create_ttr(ptr->template,
 			ptr->height + 48, ptr->width + 48);
+		if (tmp->next == NULL)
+			return (-1);
 		tmp->next->letter = 'B' + i;
 	}
 	else
 	{
 		*root = ft_create_ttr(ptr->template, ptr->height + 48, ptr->width + 48);
+		if (*root == NULL)
+			return (-1);
 		(*root)->letter = 'A';
 	}
+	return (0);
 }
 
+//	ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
+t_ttr	*ft_create_ttr(char *template, char h, char w)
+{
+	t_ttr	*ptr;
+
+	ptr = (t_ttr *)malloc(sizeof(t_ttr));
+	if (ptr == NULL)
+		return (NULL);
+	ptr->template = template;
+	ptr->height = h - 48;
+	ptr->width = w - 48;
+	ptr->next = NULL;
+	return (ptr);
+}
+
+//	ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 t_ttr	*ft_template_maker(char *templates, t_ttr **head, char *tab)
 {
-	t_ttr			*node;
-	unsigned char	i;
-	unsigned char	hw;
-	unsigned char	len;
+	t_ttr	*node;
+	t_uchar	i;
+	t_uchar	hw;
+	t_uchar	len;
 
 	i = -1;
 	hw = 0;
-	ISMALLOC_CHR(templates);
-	node = ft_create_ttr("####", '1', '4');
+	if ((node = ft_create_ttr("####", '1', '4')) == NULL)
+		return (NULL);
 	*head = node;
 	while (templates[++i] != '\0')
 	{
@@ -90,11 +100,31 @@ t_ttr	*ft_template_maker(char *templates, t_ttr **head, char *tab)
 			++len;
 			++i;
 		}
-		node->next = ft_create_ttr(ft_strsubi(templates, i - len, i - 1),\
-tab[hw], tab[hw + 1]);
-		ISMALLOC_CHR(node);
+		if ((node->next = ft_create_ttr(ft_strsubi(templates, i - len, i - 1),\
+tab[hw], tab[hw + 1])) == NULL)
+			return (NULL);
 		node = node->next;
 		hw += 2;
 	}
 	return (*head);
+}
+
+//	ПРОВЕРЕНО. РАЗЛИЧИЙ НЕТ. ФРИШИТЬ НЕЧЕГО. ПЕРЕКЛАДЫВАТЬ НЕ НАДО
+void	ft_clearfigure(t_ttr *figure, char x, char y)
+{
+	char	i;
+	char	j;
+
+	j = 0;
+	while (j < figure->height)
+	{
+		i = 0;
+		while (i < figure->width)
+		{
+			if (g_field[j + y][i + x] == figure->letter)
+				g_field[j + y][i + x] = '.';
+			++i;
+		}
+		++j;
+	}
 }

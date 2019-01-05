@@ -6,13 +6,13 @@
 #    By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/08 15:24:16 by agottlie          #+#    #+#              #
-#    Updated: 2018/12/28 12:33:35 by agottlie         ###   ########.fr        #
+#    Updated: 2019/01/05 09:17:05 by agottlie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit.a
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 SRC = libft/ft_*.c
 
@@ -28,7 +28,7 @@ $(NAME): fclean
 	@ranlib $(NAME)
 
 f:
-	@gcc $(FLAGS) -L. $(NAME) fill_it.c fun.c base_templates.c validate_ttr.c -o fillit
+	@gcc $(FLAGS) -L. $(NAME) main.c map_creator.c fillit.c other.c list_tmples.c validate_ttr.c -o fillit
 	@/bin/rm -f $(OBJ)
 
 clean:
