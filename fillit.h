@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 11:19:52 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/05 11:45:24 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/06 16:12:03 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FILLIT_H
 
 # include "libft/libft.h"
+
+# define ISMALLOC(s) if ((s) == NULL) return (-1)
 
 typedef unsigned char	t_uchar;
 

@@ -6,13 +6,12 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2019/01/05 11:12:21 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/06 16:11:53 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-//	ФРИШИТЬ НЕЧЕГО
 int		find_ttr_quantity(t_ttr *root)
 {
 	t_ttr	*ptr;
@@ -33,7 +32,6 @@ int		find_ttr_quantity(t_ttr *root)
 		return (-1);
 }
 
-//	ФРИШИТЬ НЕЧЕГО. 26 СТРОК В ФУНКЦИИ
 char	ttr_add_lst(t_ttr **root, t_ttr *ptr)
 {
 	t_ttr	*tmp;
@@ -50,21 +48,18 @@ char	ttr_add_lst(t_ttr **root, t_ttr *ptr)
 		}
 		tmp->next = ft_create_ttr(ptr->template,
 			ptr->height + 48, ptr->width + 48);
-		if (tmp->next == NULL)
-			return (-1);
+		ISMALLOC(tmp->next);
 		tmp->next->letter = 'B' + i;
 	}
 	else
 	{
 		*root = ft_create_ttr(ptr->template, ptr->height + 48, ptr->width + 48);
-		if (*root == NULL)
-			return (-1);
+		ISMALLOC(root);
 		(*root)->letter = 'A';
 	}
 	return (0);
 }
 
-//	ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 t_ttr	*ft_create_ttr(char *template, char h, char w)
 {
 	t_ttr	*ptr;
@@ -79,7 +74,6 @@ t_ttr	*ft_create_ttr(char *template, char h, char w)
 	return (ptr);
 }
 
-//	ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 t_ttr	*ft_template_maker(char *templates, t_ttr **head, char *tab)
 {
 	t_ttr	*node;
@@ -109,7 +103,6 @@ tab[hw], tab[hw + 1])) == NULL)
 	return (*head);
 }
 
-//	ПРОВЕРЕНО. РАЗЛИЧИЙ НЕТ. ФРИШИТЬ НЕЧЕГО. ПЕРЕКЛАДЫВАТЬ НЕ НАДО
 void	ft_clearfigure(t_ttr *figure, char x, char y)
 {
 	char	i;

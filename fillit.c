@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/05 10:07:55 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/12 15:50:27 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ char	ft_findplace(t_ttr *node, char *x, char *y, char mapsize)
 			if (node == g_root)
 			{
 				create_field(find_ttr_quantity(g_root));
-				return (6);					//	6 если не удалось поставить первую фигуру. В таком случае надо менять размер карты
+				return (6);
 			}
-			return (4);						//	4 когда надо откатиться на один назад
+			return (4);
 		}
 		else if (*x == mapsize)
 		{
@@ -57,7 +57,7 @@ char	ft_findplace(t_ttr *node, char *x, char *y, char mapsize)
 		else
 			*x = *x + 1;
 	}
-	return (2);						//	2 если фигуру удалось поставить. В таком случае надо повторить рекурсию и поставить фигуру.
+	return (2);
 }
 
 char	ft_canplace_checker(t_ttr *figure, char x, char y, char mapsize)
@@ -98,7 +98,7 @@ char	ft_mapmaker(t_ttr *ptr, char x, char y, char msize)
 				return (8);
 			else if (g == -1)
 				return (3);
-			else if (g != 3)
+			else if (g == 4)
 			{
 				ft_clearfigure(ptr, x, y);
 				return (ft_mapmaker(ptr, x + 1, y, msize));
@@ -110,7 +110,7 @@ char	ft_mapmaker(t_ttr *ptr, char x, char y, char msize)
 	{
 		if ((g = ft_findplace(ptr, &x, &y, msize)) == 2)
 			return (ft_mapmaker(ptr, x, y, msize));
-		return ((g == 6) ? ft_mapmaker(ptr, 0, 0, ft_strlen(g_field[0])) : 5);
+		return ((g == 6) ? ft_mapmaker(ptr, 0, 0, ft_strlen(g_field[0])) : 4);
 	}
 	return (g);
 }
@@ -122,16 +122,10 @@ char	ft_mapmaker_dispatcher(void)
 
 	node = g_root;
 	if ((len = find_ttr_quantity(g_root)) == -1)
-	{
-		printf("list is too big\n");
 		return (-1);
-	}
 	create_field(len);
-	// printf("\nTHE BEGINNING ===========================\n\n");
-	ft_mapmaker(node, 0, 0, ft_strlen(g_field[0]));	// Я ЗДЕСЬ
-	printf("\n");
+	ft_mapmaker(node, 0, 0, ft_strlen(g_field[0]));
 	ft_printsplit_arr(g_field);
-	printf("\n");
 	ft_clearmap(g_field);
 	return (0);
 }

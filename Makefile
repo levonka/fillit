@@ -6,36 +6,34 @@
 #    By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/08 15:24:16 by agottlie          #+#    #+#              #
-#    Updated: 2019/01/05 09:17:05 by agottlie         ###   ########.fr        #
+#    Updated: 2018/12/29 12:28:36 by agottlie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fillit.a
+NAME = fillit
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
-SRC = libft/ft_*.c
+SRC2 = map_creator.c fillit.c other.c list_tmples.c validate_ttr.c
 
-OBJ = ft_*.o
+OBJ2 = *.o
 
-INC = libft/libft.h
+INC = libft
 
 all: $(NAME)
 
-$(NAME): fclean
-	@gcc $(FLAGS) -c $(SRC) -I $(INC)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
-
-f:
-	@gcc $(FLAGS) -L. $(NAME) main.c map_creator.c fillit.c other.c list_tmples.c validate_ttr.c -o fillit
-	@/bin/rm -f $(OBJ)
+$(NAME):
+	make -C libft fclean && make -C libft
+	gcc $(FLAGS) -c $(SRC2) -I $(INC)
+	gcc $(FLAGS) -Llibft -lft -I$(INC) -o $(NAME) main.c $(OBJ2)
 
 clean:
-	@/bin/rm -f $(OBJ)
+	/bin/rm -f $(OBJ2)
+	make -C libft clean
 
 fclean: clean
-	@/bin/rm -f $(NAME)
-	@/bin/rm -f a.out
+	/bin/rm -f $(NAME)
+	/bin/rm -f fillit.a
+	make -C libft fclean
 
 re: fclean all

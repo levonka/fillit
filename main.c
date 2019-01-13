@@ -6,13 +6,12 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 17:38:51 by agottlie          #+#    #+#             */
-/*   Updated: 2019/01/05 11:32:19 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/05 12:09:06 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-// ПРОВЕРЕНО. РАЗЛИЧИЙ НЕТ. ЗАФРИШИНО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 char	ft_solver(char *file_name)
 {
 	char		fd;
@@ -34,7 +33,7 @@ char	ft_solver(char *file_name)
 		return (-1);
 	if (grab_ttr_line(fd, tmpl_lst_head) == -1)
 		return (-1);
-	if (ft_mapmaker_dispatcher() == -1)	// Я ЗДЕСЬ
+	if (ft_mapmaker_dispatcher() == -1)
 		return (-1);
 	free(height_width);
 	free(templates);
@@ -45,10 +44,7 @@ char	ft_solver(char *file_name)
 int		main(int ac, char **av)
 {
 	if (ac == 2 && ft_solver(av[1]) == 0)
-	{
-		// ft_clear_list(g_root);		//	НЕ РАБОТАЕТ. ИСПРАВИТЬ
 		return (0);
-	}
 	else if (ac == 1)
 	{
 		ft_putstr("usage: ./fillit source_file\n");

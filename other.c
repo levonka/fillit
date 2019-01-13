@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:41:30 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/05 11:45:48 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/05 12:16:13 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ char	grab_ttr_line(int fd, t_ttr *tmpl_lst)
 		if (valid_checker(ttr_grab) == -1)
 			return (-1);
 		ttr_arr = adjust_ttr_form_dispatcher(ttr_grab);
-		if (ttr_arr == NULL)
-			return (-1);
+		ISMALLOC(ttr_arr);
 		if ((head = check_valid_template(ttr_arr, tmpl_lst)) == NULL)
 			return (-1);
 		if (ttr_add_lst(&g_root, head) == -1)

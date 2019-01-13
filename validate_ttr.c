@@ -6,13 +6,12 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:42:24 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/05 11:48:11 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/05 12:17:04 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-// ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
 {
 	while (tmpl != NULL)
@@ -24,7 +23,6 @@ t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
 	return (NULL);
 }
 
-// ЗАФРИШИНО. В ФУНКЦИИ 26 СТРОК
 char	*ttr_trim(char *ttr, int i, int k, int count)
 {
 	char	*ttr_true;
@@ -54,7 +52,6 @@ char	*ttr_trim(char *ttr, int i, int k, int count)
 	return (ttr_res);
 }
 
-// ЗАФРИШИНО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 {
 	while (ttr[i] != '\0')
@@ -76,7 +73,6 @@ char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 	return (ttr_trim(ttr_fix, 0, 0, 0));
 }
 
-// ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 char	*adjust_ttr_form_dispatcher(char *ttr)
 {
 	char	*ttr_fix;
@@ -87,10 +83,9 @@ char	*adjust_ttr_form_dispatcher(char *ttr)
 		return (NULL);
 	ttr_res = adjust_ttr_form_ext(ttr, ttr_fix, 0, 0);
 	free(ttr_fix);
-	return (ttr_res);	// Я ЗДЕСЬ
+	return (ttr_res);
 }
 
-// ФРИШИТЬ НЕЧЕГО. ПЕРЕЛОЖЕНО В FILLIT_FOR_TEST
 char	valid_checker(char *ttr)
 {
 	t_uchar	mem;
