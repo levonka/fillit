@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   list_tmples.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:07:22 by agottlie          #+#    #+#             */
-/*   Updated: 2019/01/06 16:11:53 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/15 13:49:48 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		find_ttr_quantity(t_ttr *root)
+int		find_ttr_quantity(void)
 {
 	t_ttr	*ptr;
 	int		i;
 
-	if (root)
+	if (g_root)
 	{
 		i = 0;
-		ptr = root;
+		ptr = g_root;
 		while (ptr)
 		{
 			ptr = ptr->next;
@@ -32,15 +32,15 @@ int		find_ttr_quantity(t_ttr *root)
 		return (-1);
 }
 
-char	ttr_add_lst(t_ttr **root, t_ttr *ptr)
+char	ttr_add_lst(t_ttr *ptr)
 {
 	t_ttr	*tmp;
 	int		i;
 
 	i = 0;
-	if (root && *root)
+	if (g_root)
 	{
-		tmp = *root;
+		tmp = g_root;
 		while (tmp->next)
 		{
 			tmp = tmp->next;
@@ -53,9 +53,10 @@ char	ttr_add_lst(t_ttr **root, t_ttr *ptr)
 	}
 	else
 	{
-		*root = ft_create_ttr(ptr->template, ptr->height + 48, ptr->width + 48);
-		ISMALLOC(root);
-		(*root)->letter = 'A';
+		g_root = ft_create_ttr(ptr->template,
+			ptr->height + 48, ptr->width + 48);
+		ISMALLOC(g_root);
+		g_root->letter = 'A';
 	}
 	return (0);
 }

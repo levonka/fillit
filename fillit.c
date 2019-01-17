@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 14:43:57 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/12 15:50:27 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/14 19:39:39 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	ft_findplace(t_ttr *node, char *x, char *y, char mapsize)
 		{
 			if (node == g_root)
 			{
-				create_field(find_ttr_quantity(g_root));
+				create_field(find_ttr_quantity());
 				return (6);
 			}
 			return (4);
@@ -94,9 +94,7 @@ char	ft_mapmaker(t_ttr *ptr, char x, char y, char msize)
 	if (ft_canplace_checker(ptr, x, y, msize) != -1 && ft_putfigure(ptr, x, y))
 		if (ptr->next != NULL && (g = ft_mapmaker(ptr->next, 0, 0, msize)))
 		{
-			if (g == 1)
-				return (8);
-			else if (g == -1)
+			if (g == -1)
 				return (3);
 			else if (g == 4)
 			{
@@ -110,7 +108,10 @@ char	ft_mapmaker(t_ttr *ptr, char x, char y, char msize)
 	{
 		if ((g = ft_findplace(ptr, &x, &y, msize)) == 2)
 			return (ft_mapmaker(ptr, x, y, msize));
-		return ((g == 6) ? ft_mapmaker(ptr, 0, 0, ft_strlen(g_field[0])) : 4);
+		else if (g == 6)
+			ft_mapmaker(ptr, 0, 0, ft_strlen(g_field[0]));
+		else if (g == 4)
+			return (4);
 	}
 	return (g);
 }
@@ -121,11 +122,10 @@ char	ft_mapmaker_dispatcher(void)
 	char	len;
 
 	node = g_root;
-	if ((len = find_ttr_quantity(g_root)) == -1)
+	if ((len = find_ttr_quantity()) == -1)
 		return (-1);
 	create_field(len);
 	ft_mapmaker(node, 0, 0, ft_strlen(g_field[0]));
 	ft_printsplit_arr(g_field);
-	ft_clearmap(g_field);
 	return (0);
 }

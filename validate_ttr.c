@@ -3,30 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   validate_ttr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 08:42:24 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/01/05 12:17:04 by agottlie         ###   ########.fr       */
+/*   Updated: 2019/01/15 13:50:05 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-t_ttr	*check_valid_template(char *ttr, t_ttr *tmpl)
-{
-	while (tmpl != NULL)
-	{
-		if (ft_strcmp(tmpl->template, ttr) == 0)
-			return (tmpl);
-		tmpl = tmpl->next;
-	}
-	return (NULL);
-}
-
 char	*ttr_trim(char *ttr, int i, int k, int count)
 {
 	char	*ttr_true;
-	char	*ttr_res;
 
 	ttr_true = ft_strnew(16);
 	if (ttr_true == NULL)
@@ -47,14 +35,13 @@ char	*ttr_trim(char *ttr, int i, int k, int count)
 		count = 0;
 		ttr_true[k++] = ttr[i++];
 	}
-	ttr_res = ft_strtrim(ttr_true);
-	free(ttr_true);
-	return (ttr_res);
+	return (ttr_trimmer(ttr_true));
 }
 
 char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 {
 	while (ttr[i] != '\0')
+	{
 		if (i < 5 && ttr[i] == '.' && ttr[i + 5] == '.'
 		&& ttr[i + 10] == '.' && ttr[i + 15] == '.')
 		{
@@ -70,6 +57,7 @@ char	*adjust_ttr_form_ext(char *ttr, char *ttr_fix, int i, int k)
 				i++;
 			ttr_fix[k++] = ttr[i++];
 		}
+	}
 	return (ttr_trim(ttr_fix, 0, 0, 0));
 }
 
@@ -82,13 +70,33 @@ char	*adjust_ttr_form_dispatcher(char *ttr)
 	if (ttr_fix == NULL)
 		return (NULL);
 	ttr_res = adjust_ttr_form_ext(ttr, ttr_fix, 0, 0);
-	free(ttr_fix);
 	return (ttr_res);
+}
+
+int		valid_checker_ext(char *ttr)
+{
+	while (*ttr != '\n' && *ttr != '\0')
+	{
+		if (*ttr == '.')
+		{
+			while (*ttr != '\n' && *ttr != '\0')
+			{
+				if (*ttr == '#')
+					return (-1);
+				ttr++;
+			}
+			break ;
+		}
+		ttr++;
+		if (*ttr == '\0')
+			break ;
+	}
+	return (0);
 }
 
 char	valid_checker(char *ttr)
 {
-	t_uchar	mem;
+	t_uchar mem;
 
 	mem = 0;
 	if (ttr[0] == '\n')
@@ -97,12 +105,12 @@ char	valid_checker(char *ttr)
 	{
 		if (*ttr != '.' && *ttr != '#' && *ttr != '\n')
 			return (-1);
-		(*ttr == '#') ? mem++ : mem;
-		if (mem > 4)
+		(*ttr == '.') ? mem++ : mem;
+		if ((*ttr == '#') && (valid_checker_ext(ttr) == -1))
 			return (-1);
 		ttr++;
 	}
-	if (mem < 4)
+	if (mem != 12)
 		return (-1);
 	return (1);
 }
