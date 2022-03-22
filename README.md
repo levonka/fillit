@@ -22,6 +22,7 @@ $ ./fillit [file]
 ## Final score
 
 100/100 (max)
+
 ![](screenshots/score.png)
 
 ## How does it work
