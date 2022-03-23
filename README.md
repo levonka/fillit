@@ -1,6 +1,6 @@
 # Fillit
 
-Fillit is a School 42 project. The purpose of this project is to create program which form the smallest possible square from a list of tetriminos.
+Fillit is a School 42 project. The purpose of this project is to create program that forms the smallest possible square from a list of tetriminos.
 
 [`fillit.en.pdf`](/fillit.en.pdf) is the task file.
 
